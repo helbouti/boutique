@@ -1,0 +1,72 @@
+from flask import Flask , render_template , request
+import mysql.connector
+from flask import jsonify
+
+
+app = Flask(__name__)
+
+try:
+    conn = mysql.connector.connect(
+    host = "127.0.0.1",
+    user ="root" ,
+    password ="",
+    database = "test"
+    )
+
+    message = 'sucsefuly connected'
+    mycursor = conn.cursor()
+    results = "starting..."
+   #mycursor.execute("SELECT * FROM  clients ")
+    #results = mycursor.fetchall()
+
+except BaseException:
+    results = ["#"]
+    message = 'not connected'
+    
+print(message)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/del")
+def delete_cmd():
+    delcur = conn.cursor()
+    delcur.execute("delete from clients where personid > 13 ;")
+    conn.commit()
+    delcur.close()
+    return "deletd"
+
+
+@app.route("/mydb")
+def Liste_command():
+    cur = conn.cursor()
+    cur.execute("select  * from  clients ")
+    results = cur.fetchall()
+    cur.close()
+    return render_template('command.html' , message = message, results = results)
+
+
+def add_client(nom ,prenom ,addr , phone ,qt):
+    quey = "INSERT INTO clients (nom ,prenom ,addr , phone ,qt) VALUES (%s ,%s ,%s ,%s ,%s);"
+    values= (nom ,prenom ,addr , phone ,qt)
+    mycursor.execute(quey,values)
+    conn.commit()
+
+
+@app.route('/handle_data', methods=['POST'])
+def handle_data():
+    nom = request.form['nom']
+    prenom = request.form['prenom']
+    addr = request.form['addr']
+    phone = request.form['phone']
+    qt = request.form['qt']
+    add_client(nom ,prenom ,addr , phone ,qt)
+
+    #yousend_me ="nom : {nom}  prenom : {prenom} addr : {addr} phone : {phone} qt : {qt}"
+    # your code     return {"data":"recived"}
+    return jsonify( {"data":"recived"} )
+
+if __name__=="__main__":
+    app.run()

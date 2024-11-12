@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SB database</title>
+</head>
+
+<body>
+  <h1>Data base status Connection </h1>
+  <h2>{{message}}</h2>
+</body>
+
+<table>
+       <tr>
+        <th>Id</th>
+        <th>Firtst Name</th>
+        <th>laste Name</th>
+        <th>addr</th>
+        <th>phone</th>
+        <th>qt</th>
+        </tr>
+    {% for row in results %}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
+      </tr>
+     {% endfor %}
+
+</table>
+
+
+</html>
