@@ -37,20 +37,13 @@ class commandForm(FlaskForm):
     #language = SelectField(u'Programming Language',choices=[('cpp', 'C++'),('py', 'Python'),('text', 'Plain Text')])#select for color
     #color = SelectField(u'Color Choice',choices=[('#FF0000', 'red'),('#00FF00','green'),('#0000FF','blue')])
 
-def formJasonify(form):
-    return jsonify({"nom":form.nom.data ,"prenom":form.prenom.data ,"addr":form.addr.data ,"tel":form.tel.data ,"qt":str(form.qt.data)})
-
 
 #home page
 @app.route("/",methods=['GET','POST'])
 def index():
     form = commandForm() # wtf
-    
 
     return render_template("index.html", form =form  )
-
-
-
 
 
 @app.route("/del")
@@ -61,7 +54,7 @@ def delete_cmd():
     conn.commit()
     delcur.close()
     conn.close()#closing
-    return "deletd"
+    return  jsonify({"deleted":"ok"})
 
 
 @app.route("/mydb")
@@ -89,18 +82,9 @@ def add_client(nom ,prenom ,addr , phone ,qt):
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
     form = commandForm() 
-    print(" post",form.nom)
-    print(" post",form.prenom)
-    print(" post",form.addr)
-    print(" post",form.tel)
-    print(" post",form.qt)
+
     if form.validate():
-        print("valid post",form.nom)
-        print("valid post",form.prenom)
-        print("valid post",form.addr)
-        print("valid post",form.tel)
-        print("valid post",form.qt)
-        return jsonify({"ok":"ok"})
+        return jsonify({"data":form.data})
     return jsonify({"error":form.errors})
 
 if __name__=="__main__":

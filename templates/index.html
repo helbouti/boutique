@@ -9,7 +9,9 @@
     <title>Document</title>
 </head>
 <body>
-
+    <dialog id="dialog" close>
+            
+    </dialog>
 
     <div class="top"> Logo on Top  </div>
     <div class="contaner">
@@ -36,17 +38,11 @@
             <label for="tel" >Phone</label>{{ form.tel }}
             <label for="qt" >Quantite</label>{{ form.qt}}
             <button id="btnSubmit"> Order</button>
+            
 
         </form>
-<!-- 
        
-        {% if form.nom.errors %}
-            <ul class="errors">
-            {% for error in form.nom.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %} -->
+
 
     </div>
     

@@ -13,9 +13,8 @@ orderForm.addEventListener("submit",async (e)=>{
         addr:  orderForm.addr.value  ,
         qt: orderForm.qt.value ,  
         csrf_token : orderForm.csrf_token.value
-
     }
-    console.log(orderForm.csrf_token.value)
+
     const resp= await fetch("/handle_data", {
         "method": "POST",
         headers:{
@@ -28,6 +27,12 @@ orderForm.addEventListener("submit",async (e)=>{
     
 
     console.log(data)
+    const dialog=document.getElementById("dialog")
+    dialog.addEventListener("click",()=>{
+        dialog.close()
+    })
+    // dialog.innerText=JSON.stringify(data.data)
+    dialog.showModal()
         
 
 })
