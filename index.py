@@ -45,12 +45,8 @@ def formJasonify(form):
 @app.route("/",methods=['GET','POST'])
 def index():
     form = commandForm() # wtf
-    if form.validate_on_submit():
-        print("valid form")
-        add_client(form.nom.data ,form.prenom.data ,form.addr.data ,form.tel.data ,form.qt.data)
-        return jsonify( {"client_add":"sucessfully", "form" :formJasonify(form)} ) 
-        #return render_template("index.html",confirmMsg = confirmMsg , form =form  )
-    print("invalid post")
+    
+
     return render_template("index.html", form =form  )
 
 
@@ -92,14 +88,20 @@ def add_client(nom ,prenom ,addr , phone ,qt):
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
-    form = commandForm() # wtf
-    if form.validate_on_submit():
-        print(form)
-        add_client(form.nom.data ,form.prenom.data ,form.addr.data ,form.tel.data ,form.qt.data)
-        return jsonify( {"client_add":"sucessfully", "form" :formJasonify(form)} ) 
-        #return render_template("index.html",confirmMsg = confirmMsg , form =form  )
-
-    return jsonify( {"client_add":"failed", "form" :"null"} ) 
+    form = commandForm() 
+    print(" post",form.nom)
+    print(" post",form.prenom)
+    print(" post",form.addr)
+    print(" post",form.tel)
+    print(" post",form.qt)
+    if form.validate():
+        print("valid post",form.nom)
+        print("valid post",form.prenom)
+        print("valid post",form.addr)
+        print("valid post",form.tel)
+        print("valid post",form.qt)
+        return jsonify({"ok":"ok"})
+    return jsonify({"error":form.errors})
 
 if __name__=="__main__":
     app.run(debug=True)

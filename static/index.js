@@ -1,29 +1,36 @@
 const orderForm = document.getElementById("orderForm")
 
-orderForm.addEventListener("submit",(e)=>{
+orderForm.addEventListener("submit",async (e)=>{
     e.preventDefault() // not refresh thi page 
-    
-/// using fetch
-const room_url = "handle_data" 
+        
+    /// using fetch
+    const room_url = "handle_data" 
 
-let data = new FormData()
-data.append("nom",  orderForm.nom.value )
-data.append("prenom",  orderForm.prenom.value )
-data.append("tel",  orderForm.tel.value  )
-data.append("addr",  orderForm.addr.value  )
-data.append("qt",  orderForm.qt.value   )
+    let formData ={
+        nom: orderForm.nom.value ,
+        prenom: orderForm.prenom.value ,
+        tel: orderForm.tel.value  ,
+        addr:  orderForm.addr.value  ,
+        qt: orderForm.qt.value ,  
+        csrf_token : orderForm.csrf_token.value
 
-fetch("/", {
-    "method": "POST",
-    "body": data,
-}).then((rep)=>{
+    }
+    console.log(orderForm.csrf_token.value)
+    const resp= await fetch("/handle_data", {
+        "method": "POST",
+        headers:{
+            "content-type":"application/json",
+            "X-CSRFToken":orderForm.csrf_token.value 
+        },
+        "body":JSON.stringify(formData),
+    });
+    const data=await resp.json();
     
-    rep.json() 
-        .then(function(rep) {
-            console.log(rep)
-        });
+
+    console.log(data)
+        
 
 })
-})
+
 
 
