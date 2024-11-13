@@ -16,11 +16,15 @@ app.config['SECRET_KEY'] = 'lablam.2017'
 
 
 def connectDB():
+    iurl="postgresql://hamza_whq2_user:YiKgsmkk0cfMnM5t4G9r2M0mJGelcAhd@dpg-csqanpij1k6c738flfm0-a/hamza_whq2v"
+    eurl="postgresql://hamza_whq2_user:YiKgsmkk0cfMnM5t4G9r2M0mJGelcAhd@dpg-csqanpij1k6c738flfm0-a.oregon-postgres.render.com/hamza_whq2"
+    
     return psycopg2.connect(
-        host = "127.0.0.1",
-        user ="root" ,
-        password ="",
-        database = "test"
+        host ="dpg-csqanpij1k6c738flfm0-a.oregon-postgres.render.com",
+        user ="hamza_whq2_user" ,
+        password ="YiKgsmkk0cfMnM5t4G9r2M0mJGelcAhd",
+        database = "hamza_whq2",
+        port=5432
     )
 
 
@@ -41,10 +45,29 @@ class commandForm(FlaskForm):
 #home page
 @app.route("/",methods=['GET','POST'])
 def index():
+    creatAll()
     form = commandForm() # wtf
 
     return render_template("index.html", form =form  )
 
+
+def creatAll():
+    conn = connectDB()
+    delcur = conn.cursor()
+    delcur.execute("""
+                    CREATE TABLE IF NOT EXISTS clients (
+                        nom VARCHAR(255),
+                        prenom VARCHAR(255),
+                        addr VARCHAR(255),
+                        tel VARCHAR(255),
+                        qt VARCHAR(255)
+                        
+                        );
+                   
+                   """)
+    conn.commit()
+    delcur.close()
+    conn.close()#closing
 
 @app.route("/del")
 def delete_cmd():
@@ -69,7 +92,7 @@ def Liste_command():
 
 
 def add_client(nom ,prenom ,addr , phone ,qt):
-    quey = "INSERT INTO clients (nom ,prenom ,addr , phone ,qt) VALUES (%s ,%s ,%s ,%s ,%s);"
+    quey = "INSERT INTO clients (nom ,prenom ,addr , tel ,qt) VALUES (%s ,%s ,%s ,%s ,%s);"
     values= (nom ,prenom ,addr , phone ,qt)
     conn = connectDB()
     cur = conn.cursor()
@@ -84,6 +107,7 @@ def handle_data():
     form = commandForm() 
 
     if form.validate():
+        add_client(form.nom.data,form.prenom.data,form.addr.data,form.tel.data,form.qt.data)
         return jsonify({"data":form.data})
     return jsonify({"error":form.errors})
 
