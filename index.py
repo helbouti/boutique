@@ -1,6 +1,7 @@
 from flask import Flask , render_template , request
 import psycopg2
 from flask import jsonify
+import os
 
 from flask_wtf import FlaskForm,RecaptchaField
 from wtforms import (StringField,SelectField, TextAreaField, IntegerField, BooleanField, RadioField)
@@ -16,15 +17,13 @@ app.config['SECRET_KEY'] = 'lablam.2017'
 
 
 def connectDB():
-    iurl="postgresql://hamza_whq2_user:YiKgsmkk0cfMnM5t4G9r2M0mJGelcAhd@dpg-csqanpij1k6c738flfm0-a/hamza_whq2v"
-    eurl="postgresql://hamza_whq2_user:YiKgsmkk0cfMnM5t4G9r2M0mJGelcAhd@dpg-csqanpij1k6c738flfm0-a.oregon-postgres.render.com/hamza_whq2"
     
     return psycopg2.connect(
-        host ="dpg-csqanpij1k6c738flfm0-a.oregon-postgres.render.com",
-        user ="hamza_whq2_user" ,
-        password ="YiKgsmkk0cfMnM5t4G9r2M0mJGelcAhd",
-        database = "hamza_whq2",
-        port=5432
+        host =os.environ.get["host"] ,
+        user =os.environ.get["user"] ,
+        password =os.environ.get["password"],
+        database = os.environ.get["database"],
+        port=os.environ.get["port"]
     )
 
 
