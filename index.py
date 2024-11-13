@@ -16,7 +16,7 @@ app.config['SECRET_KEY'] = 'lablam.2017'
 
 
 def connectDB():
-    return mysql.connector.connect(
+    return psycopg2.connect(
         host = "127.0.0.1",
         user ="root" ,
         password ="",
