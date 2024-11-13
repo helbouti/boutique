@@ -1,5 +1,5 @@
 from flask import Flask , render_template , request
-import mysql.connector
+import psycopg2
 from flask import jsonify
 
 from flask_wtf import FlaskForm,RecaptchaField
