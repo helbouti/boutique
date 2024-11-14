@@ -2,6 +2,7 @@ from flask import Flask , render_template , request
 import psycopg2
 from flask import jsonify
 import os
+from dotenv import load_dotenv
 
 from flask_wtf import FlaskForm,RecaptchaField
 from wtforms import (StringField,SelectField, TextAreaField, IntegerField, BooleanField, RadioField)
@@ -9,6 +10,7 @@ from wtforms.validators import InputRequired, Length , NumberRange , Regexp
 
 
 app = Flask(__name__)
+load_dotenv()
 app.config['SECRET_KEY'] = 'lablam.2017'
 #app.config['RECAPTCHA_USE_SSL']= False
 #app.config['RECAPTCHA_PUBLIC_KEY']='enter_your_public_key'
@@ -19,11 +21,11 @@ app.config['SECRET_KEY'] = 'lablam.2017'
 def connectDB():
     
     return psycopg2.connect(
-        host =os.environ.get["host"] ,
-        user =os.environ.get["user"] ,
-        password =os.environ.get["password"],
-        database = os.environ.get["database"],
-        port=os.environ.get["port"]
+        host =os.getenv("host"),           #os.environ.get["host"] ,
+        user =os.getenv("user") ,          #os.environ.get["user"] ,
+        password =os.getenv("password") ,  #os.environ.get["password"],
+        database =os.getenv("database") ,  #os.environ.get["database"],
+        port=os.getenv("port")            #os.environ.get["port"]
     )
 
 

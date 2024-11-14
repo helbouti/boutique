@@ -24,7 +24,8 @@ orderForm.addEventListener("submit",async (e)=>{
         "body":JSON.stringify(formData),
     });
     const data=await resp.json();
-    
+
+    orderForm.reset()
 
     console.log(data)
     const dialog=document.getElementById("dialog")
