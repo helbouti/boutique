@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask_wtf import FlaskForm,RecaptchaField
 from wtforms import (StringField,SelectField, TextAreaField, IntegerField, BooleanField, RadioField)
 from wtforms.validators import InputRequired, Length , NumberRange , Regexp
+from wtforms.fields import TelField
 
 
 app = Flask(__name__)
@@ -36,6 +37,7 @@ class commandForm(FlaskForm):
     addr = StringField('addr', validators=[InputRequired()] )
     qt = IntegerField('qt', validators=[NumberRange(min=1, max=20,  message='enter 1 et 20 ')] , render_kw={"value":"1"} )
     tel = StringField('tel', validators=[InputRequired('Required'), Length(min=10, max=10),Regexp(r'^(05|06|07)\d{8}$')] )
+    phone=TelField()
 
     #Regexp(r'^(05|06|07)\d{8}$')
     #from wtforms import (StringField,SelectField...)
